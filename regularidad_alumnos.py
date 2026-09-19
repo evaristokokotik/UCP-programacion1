@@ -6,29 +6,46 @@
 
 #Y saber el % de asistencia de cada alumno.
 
-alumnos = { nombre: "Juan", notas: [7, 8, 9, 6], asistencia: 90 }, 
-{ nombre: "Maria", notas: [5, 6, 4, 7], asistencia: 60 }, 
-{ nombre: "Pedro", notas: [1, 9, 4, 7], asistencia: 95 },
-{ nombre: "Ana", notas: [6, 5, 7, 8], asistencia: 85 } 
+# Definición del conjunto de alumnos utilizando registros (diccionarios) y arreglos (listas)
+alumnos = [
+    {"nombre": "Juan", "notas": [7, 8, 9, 6], "asistencia": 90},
+    {"nombre": "Maria", "notas": [5, 6, 4, 7], "asistencia": 60},
+    {"nombre": "Pedro", "notas": [1, 9, 4, 7], "asistencia": 95},
+    {"nombre": "Ana", "notas": [6, 5, 7, 8], "asistencia": 85}
+]
 
-#hacer una funcion que determine si cada alumno esta regular o no, y que muestre el resultado en pantalla.
+# Función para calcular el promedio de una lista de notas
+def calcular_promedio(notas):
+    suma = sum(notas)
+    cantidad = len(notas)
+    promedio = suma / cantidad
+    return promedio
 
-def determinar_regularidad(alumnos):
-    for alumno in alumnos:
-        nombre = alumno['nombre']
-        notas = alumno['notas']
-        asistencia = alumno['asistencia']
+# Función para determinar si un alumno está regular
+# Criterio: Asistencia >= 70 Y Promedio >= 6
+def evaluar_regularidad(alumno):
+    promedio_notas = calcular_promedio(alumno["notas"])
+    asistencia = alumno["asistencia"]
+    
+    if asistencia >= 70 and promedio_notas >= 6:
+        return True
+    else:
+        return False
 
-        promedio_notas = sum(notas) / len(notas)
-        
-        if promedio_notas >= 6 and asistencia >= 75:
-            estado = "regular"
-        else:
-            estado = "no regular"
-
-        print(f"El alumno {nombre} está {estado}. Promedio de notas: {promedio_notas:.2f}, Asistencia: {asistencia}%")
-
-
+# Proceso principal para recorrer el arreglo de alumnos y mostrar el estado
+print("ESTADO DE REGULARIDAD DE LOS ALUMNOS")
+for alumno in alumnos:
+    es_regular = evaluar_regularidad(alumno)
+    promedio = calcular_promedio(alumno["notas"])
+    
+    print(f"Alumno: {alumno['nombre']}")
+    print(f"Promedio de notas: {promedio}")
+    print(f"Asistencia: {alumno['asistencia']}%")
+    
+    if es_regular:
+        print("Estado: ESTÁ REGULAR")
+    else:
+        print("Estado: NO ESTÁ REGULAR")
 
 
 
