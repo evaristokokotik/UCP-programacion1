@@ -6,13 +6,10 @@
 
 #Y saber el % de asistencia de cada alumno.
 
-# Definición del conjunto de alumnos utilizando registros (diccionarios) y arreglos (listas)
-alumnos = [
-    {"nombre": "Juan", "notas": [7, 8, 9, 6], "asistencia": 90},
-    {"nombre": "Maria", "notas": [5, 6, 4, 7], "asistencia": 60},
-    {"nombre": "Pedro", "notas": [1, 9, 4, 7], "asistencia": 95},
-    {"nombre": "Ana", "notas": [6, 5, 7, 8], "asistencia": 85}
-]
+import json
+
+with open("alumnos.json", "r", encoding="utf-8") as archivo:
+    alumnos = json.load(archivo)
 
 # Función para calcular el promedio de una lista de notas
 def calcular_promedio(notas):
@@ -32,7 +29,7 @@ def evaluar_regularidad(alumno):
     else:
         return False
 
-# Proceso principal para recorrer el arreglo de alumnos y mostrar el estado
+# Proceso principal para recorrer el arreglo de alumnos y mostrar su estado de regularidad
 print("ESTADO DE REGULARIDAD DE LOS ALUMNOS")
 for alumno in alumnos:
     es_regular = evaluar_regularidad(alumno)
@@ -46,6 +43,3 @@ for alumno in alumnos:
         print("Estado: ESTÁ REGULAR")
     else:
         print("Estado: NO ESTÁ REGULAR")
-
-
-
