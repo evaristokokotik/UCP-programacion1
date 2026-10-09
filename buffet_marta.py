@@ -1,4 +1,4 @@
-import os
+import json
 
 # VARIABLE GLOBAL: Arreglo de diccionarios para el catálogo[cite: 2]
 catalogo = [
@@ -58,11 +58,17 @@ def mostrar_menu():
     print("4. Salir")
 
 def guardar_datos(dia, codigo, cantidad):
-    # Recibe datos para escribir su contenido físico en el archivo de texto
-    # Se abre en modo "a" (append) para agregar sin borrar lo anterior
-    archivo = open("ventas_semana.txt", "a")
-    archivo.write(str(dia) + "," + str(codigo) + "," + str(cantidad) + "\n")
-    archivo.close()
+    # Guarda la venta en un archivo JSON
+    try:
+        with open("ventas_semana.json", "r", encoding="utf-8") as archivo:
+            ventas = json.load(archivo)
+    except FileNotFoundError:
+        ventas = []
+
+    ventas.append({"dia": dia, "codigo": codigo, "cantidad": cantidad})
+
+    with open("ventas_semana.json", "w", encoding="utf-8") as archivo:
+        json.dump(ventas, archivo, indent=4, ensure_ascii=False)
 
 def registrar_venta(matriz):
     # Recibe la matriz para actualizar sus cantidades tras el ingreso por teclado
@@ -94,20 +100,24 @@ def registrar_venta(matriz):
 # PROCEDIMIENTOS AUXILIARES Y BLOQUE PRINCIPAL
 
 def inicializar_datos(matriz):
-    # Reconstruye la matriz leyendo el archivo secuencialmente
-    if os.path.exists("ventas_semana.txt"):
-        archivo = open("ventas_semana.txt", "r")
-        for linea in archivo:
-            dia, codigo, cantidad = map(int, linea.strip().split(","))
-            for i in range(6):
-                if catalogo[i]["codigo"] == codigo:
-                    matriz[i][dia - 1] = matriz[i][dia - 1] + cantidad
-                    break
-        archivo.close()
-    else:
-        # Si el archivo es inexistente, crea uno nuevo en blanco
-        archivo = open("ventas_semana.txt", "w")
-        archivo.close()
+    # Reconstruye la matriz leyendo las ventas guardadas en JSON
+    try:
+        with open("ventas_semana.json", "r", encoding="utf-8") as archivo:
+            ventas = json.load(archivo)
+    except FileNotFoundError:
+        ventas = []
+        with open("ventas_semana.json", "w", encoding="utf-8") as archivo:
+            json.dump(ventas, archivo, indent=4)
+
+    for venta in ventas:
+        dia = venta["dia"]
+        codigo = venta["codigo"]
+        cantidad = venta["cantidad"]
+
+        for i in range(len(catalogo)):
+            if catalogo[i]["codigo"] == codigo:
+                matriz[i][dia - 1] += cantidad
+                break
 
 def mostrar_informes(matriz):
     print("\n INFORME SEMANAL")
