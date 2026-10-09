@@ -1,0 +1,28 @@
+[
+    {
+        "nombre": "felipao",
+        "jugadores": [
+            {
+                "nombre": "feli",
+                "categoria": "6"
+            },
+            {
+                "nombre": "juanfra",
+                "categoria": "6"
+            }
+        ]
+    },
+    {
+        "nombre": "kokonashe",
+        "jugadores": [
+            {
+                "nombre": "koko",
+                "categoria": "4"
+            },
+            {
+                "nombre": "fede",
+                "categoria": "6"
+            }
+        ]
+    }
+]
